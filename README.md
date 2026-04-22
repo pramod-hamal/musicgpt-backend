@@ -1018,8 +1018,6 @@ It is optimized for:
 - High concurrency
 - Horizontal scaling
 
-```
-
 ---
 
 ## MusicGPT API - Postman Collection
