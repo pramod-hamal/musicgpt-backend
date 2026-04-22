@@ -371,6 +371,8 @@ PENDING → PROCESSING → COMPLETED
 
 ---
 
+
+
 ### Notes
 
 - The cron-based polling ensures decoupling between request handling and job execution.
@@ -1018,4 +1020,172 @@ It is optimized for:
 
 ```
 
+---
+
+## MusicGPT API - Postman Collection
+
+This repository includes the Postman collection for testing and interacting with the MusicGPT API.
+
+---
+
+## Base Configuration
+
+The collection is configured using collection-level variables.
+
+### Variables
+
+- `url`
+
+  ```
+  musicbe.pramodhamal.com/api
+  ```
+
+  Base URL used for all API requests.
+
+- `token`
+
+  - Set automatically after successful `login` or `refresh`
+  - Used automatically for authenticated requests
+
+---
+
+## Request Automation
+
+### Automatic URL Handling
+
+All requests are defined with relative paths (example: `/auth/login`).
+
+A pre-request script automatically:
+
+1. Prefixes each path with `{{url}}`
+2. Builds the full request URL
+3. Attaches required headers
+
+Example final URL:
+
 ```
+{{url}}/auth/login
+```
+
+### Automatic Authentication Handling
+
+After `login` or `refresh`, access token is stored automatically:
+
+```js
+pm.collectionVariables.set('token', res?.data?.accessToken);
+```
+
+For API requests, headers are handled automatically:
+
+```
+Authorization: Bearer {{token}}
+Content-Type: Application/json
+```
+
+You do not need to manually add Authorization headers for normal API endpoints.
+
+---
+
+## Auth Endpoints
+
+- `POST /auth/register`
+- `POST /auth/login` (stores `accessToken` automatically)
+- `POST /auth/refresh` (updates token automatically)
+- `POST /auth/logout`
+
+---
+
+## User Endpoints
+
+- `GET /users` (supports `nextCursor`, `prevCursor`)
+- `GET /users/:id`
+- `PATCH /users/:id`
+
+---
+
+## Subscription Endpoints
+
+- `POST /subscriptions/subscribe`
+- `POST /subscriptions/cancel`
+
+---
+
+## Prompt Endpoints
+
+- `GET /prompts`
+- `GET /prompts/:id`
+- `POST /prompts`
+
+---
+
+## Audio Endpoints
+
+- `GET /audios`
+- `PATCH /audios`
+
+---
+
+## Search Endpoint
+
+- `GET /search?q=your_query`
+
+Supported cursors:
+
+- `nextUserCursor`
+- `prevUserCursor`
+- `nextAudioCursor`
+- `prevAudioCursor`
+
+---
+
+## Pagination
+
+The API uses cursor-based pagination.
+
+Example:
+
+```
+?nextCursor=BASE64_STRING
+```
+
+- Use `nextCursor` to fetch the next page
+- Use `prevCursor` to fetch the previous page
+
+---
+
+## WebSocket Collection
+
+A separate Postman collection is available for WebSocket testing: `musicgpt-websocket`.
+
+### Important
+
+WebSocket authorization must be added manually:
+
+```
+Authorization: Bearer <your_token>
+```
+
+There is no automation script for WebSocket authentication.
+
+---
+
+## Getting Started
+
+1. Import the Postman collection.
+2. Set collection variable:
+
+   ```
+   url = musicbe.pramodhamal.com/api
+   ```
+
+3. Run `Auth -> login`.
+4. Use any API endpoint (token handling is automatic).
+
+---
+
+## Notes
+
+- Endpoints are defined as relative paths.
+- Pre-request scripts handle URL construction.
+- Authorization and `Content-Type` headers are auto-managed for API requests.
+- WebSocket requests require manual Authorization setup.
