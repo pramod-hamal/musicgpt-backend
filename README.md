@@ -524,7 +524,6 @@ A proper unified search system could include:
 
 The current system is a **parallel search implementation** with basic substring matching. While functional, it does not yet provide unified ranking or relevance scoring across different data types. The next evolution would involve introducing a scoring-based search layer using PostgreSQL full-text capabilities or a dedicated search engine.
 
-````
 
 
 ---
@@ -690,7 +689,6 @@ THROTTLE_BLOCK_DURATION_MS=60000
 
 This rate limiting system provides a lightweight, subscription-aware throttling mechanism using Redis-backed state tracking. It ensures fair usage for free users while prioritizing higher throughput for paid users, with temporary blocking to handle abuse scenarios.
 
-````
 
 # Summary of Architecture
 
