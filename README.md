@@ -713,20 +713,20 @@ It uses:
 ```mermaid
 flowchart TD
 
-A[HTTP Requests<br/>(Port 6001)] --> B[NestJS Application Layer]
+A["HTTP Requests<br/>(Port 6001)"] --> B["NestJS Application Layer"]
 
 B --> C[Controllers]
 B --> D[Use Cases]
-B --> E[Guards & Interceptors]
+B --> E["Guards & Interceptors"]
 
-C --> F[Core Layer<br/>Domain + Repository Abstractions]
+C --> F["Core Layer<br/>Domain + Repository Abstractions"]
 D --> F
 E --> F
 
-F --> G[PostgreSQL<br/>(Prisma)]
+F --> G["PostgreSQL<br/>(Prisma)"]
 F --> H[Redis]
 F --> I[BullMQ Queue]
-````
+```
 
 ---
 
