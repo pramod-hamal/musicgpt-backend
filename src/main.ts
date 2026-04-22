@@ -7,6 +7,7 @@ import { ValidationException } from './common/exception/validation.exception';
 import { RedisService } from './frameworks/data-service/redis/redis.service';
 import { RedisIoAdapter } from './frameworks/websocket/adapter/redis-io.adapter';
 import { winstonLogger } from './logger/winston.logger';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: WinstonModule.createLogger({
@@ -39,6 +40,16 @@ async function bootstrap() {
   const subClient = pubClient.duplicate();
   await redisIoAdapter.connectToRedis(pubClient, subClient);
   app.useWebSocketAdapter(redisIoAdapter);
+
+  const config = new DocumentBuilder()
+    .setTitle('MusicGPT API')
+    .setDescription('API documentation for MusicGPT (not enough time to write: Proper postman collection will be provided)')
+    .setVersion('1.0')
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api/docs', app, document);
+
   await app.listen(port, () => {
     Logger.log(`Server running on port ${port}`, 'Bootstrap');
   });
