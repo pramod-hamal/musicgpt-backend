@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "prompts" ADD COLUMN     "priority" INTEGER NOT NULL DEFAULT 5,
+ADD COLUMN     "status" TEXT NOT NULL DEFAULT 'PENDING';

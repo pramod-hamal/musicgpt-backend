@@ -1,0 +1,73 @@
+services:
+  api:
+    build:
+      context: .
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - 6001:6001
+    networks:
+      - musicgpt
+    depends_on:
+      - postgres
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    volumes:
+      - /var/log/musicgpt-logs:/app/src/logs
+      - ./.env:/app/src/.env
+
+  postgres:
+    image: postgres:15
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - 5432:5432
+    networks:
+      - musicgpt
+    volumes:
+      - musicgpt-postgres-data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - 5050:80
+    networks:
+      - musicgpt
+    depends_on:
+      - postgres
+  redis:
+    image: redis:7
+    restart: always
+    ports:
+      - 6379:6379
+    volumes:
+      - musicgpt-redis-data:/data
+    networks:
+      - musicgpt
+  
+  redis-insight:
+    image: redis/redisinsight:latest
+    restart: always
+    ports:
+      - "5540:5540"
+    volumes:
+      - musicgpt-redis-insight:/data
+    networks:
+      - musicgpt
+
+volumes:
+  musicgpt-redis-insight:
+  musicgpt-postgres-data:
+  musicgpt-redis-data:
+
+networks:
+  musicgpt:

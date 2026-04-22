@@ -1,0 +1,68 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// MODELS START::
+
+model User {
+  id                 String          @id @default(uuid())
+  email              String          @unique
+  password           String
+  displayName        String?         @map("display_name")
+  subscriptionStatus String          @map("subscription_status")
+  createdAt          DateTime        @default(now()) @map("created_at")
+  updatedAt          DateTime        @updatedAt @map("updated_at")
+  prompts            Prompt[]
+  refreshToken       RefreshTokens[]
+
+  @@map("users")
+}
+
+model Prompt {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  text      String
+  status    String   @default("PENDING")
+  priority  Int      @default(5)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user  User    @relation(fields: [userId], references: [id])
+  audio Audio[]
+
+  @@map("prompts")
+}
+
+model Audio {
+  id        String   @id @default(uuid())
+  promptId  String   @map("prompt_id")
+  url       String
+  title     String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  prompt Prompt @relation(fields: [promptId], references: [id])
+
+  @@map("audio")
+}
+
+model RefreshTokens {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  token     String
+  isRevoked Boolean  @default(false) @map("is_revoked")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("refresh_tokens")
+}
+
+// MODELS END::
