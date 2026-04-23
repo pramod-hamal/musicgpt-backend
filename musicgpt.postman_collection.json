@@ -1,0 +1,556 @@
+{
+  "info": {
+    "_postman_id": "0214aa74-b5ef-401a-bfb3-84360f664745",
+    "name": "musicgpt",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "52185297",
+    "_collection_link": "https://go.postman.co/collection/52185297-0214aa74-b5ef-401a-bfb3-84360f664745?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"pramod1@gmail.com\",\n    \"password\": \"ABCdef123@@\",\n    \"displayName\": \"Pramod Hamal\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/auth/register",
+              "path": [
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = (pm.response.json())",
+                  "pm.collectionVariables.set(\"token\", res?.data?.accessToken);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"pramod@gmail.com\",\n    \"password\": \"ABCdef123@@\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/auth/login",
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "refresh",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = (pm.response.json())",
+                  "pm.collectionVariables.set(\"token\", res?.data?.accessToken);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/auth/refresh",
+              "path": [
+                "auth",
+                "refresh"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJwcmFtb2RAZ21haWwuY29tIiwianRpIjoiYjkyMzI1NWQtMWZiNC00OTc3LWIwYjktODY2NGQ4ODU4YTM1IiwiaWF0IjoxNzc2NTk5MDU2LCJleHAiOjE3NzY1OTk5NTZ9.jHuOHPBdsERXUpjdmN3bKo2MIqTglPuz9kqFTti-l1w",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:6001/api/auth/logout",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "6001",
+              "path": [
+                "api",
+                "auth",
+                "logout"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "get",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer ",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "/users",
+              "path": [
+                "users"
+              ],
+              "query": [
+                {
+                  "key": "nextCursor",
+                  "value": "MjAyNi0wNC0xNlQxNjoxNDo0OC41MTZa",
+                  "disabled": true
+                },
+                {
+                  "key": "prevCursor",
+                  "value": "MjAyNi0wNC0xNlQxNjoxNDo0OC41MTZa",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get by id",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer ",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "/users/:id",
+              "path": [
+                "users",
+                ":id"
+              ],
+              "query": [
+                {
+                  "key": "nextCursor",
+                  "value": "MjAyNi0wNC0xNlQxNjoxNDo0OC41MTZa",
+                  "disabled": true
+                },
+                {
+                  "key": "prevCursor",
+                  "value": "MjAyNi0wNC0xNlQxNjoxNDo0OC41MTZa",
+                  "disabled": true
+                }
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "77d81b0d-b06f-4c7e-bc22-e93b1ca91a3e"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer ",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"displayName\": \"Pramod Thakuri\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/users/:id",
+              "path": [
+                "users",
+                ":id"
+              ],
+              "query": [
+                {
+                  "key": "nextCursor",
+                  "value": "MjAyNi0wNC0xNlQxNjoxNDo0OC41MTZa",
+                  "disabled": true
+                },
+                {
+                  "key": "prevCursor",
+                  "value": "MjAyNi0wNC0xNlQxNjoxNDo0OC41MTZa",
+                  "disabled": true
+                }
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "77d81b0d-b06f-4c7e-bc22-e93b1ca91a3e"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Subscription",
+      "item": [
+        {
+          "name": "subscribe",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "/subscriptions/subscribe",
+              "path": [
+                "subscriptions",
+                "subscribe"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "/subscriptions/cancel",
+              "path": [
+                "subscriptions",
+                "cancel"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Prompt",
+      "item": [
+        {
+          "name": "get",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer ",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "/prompts?prevCursor=MjAyNi0wNC0yMVQxMDo0NjoxNS4zNzha",
+              "path": [
+                "prompts"
+              ],
+              "query": [
+                {
+                  "key": "nextCursor",
+                  "value": "MjAyNi0wNC0yMVQxMDo0NjoxNy41OTda",
+                  "disabled": true
+                },
+                {
+                  "key": "prevCursor",
+                  "value": "MjAyNi0wNC0yMVQxMDo0NjoxNS4zNzha"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get by id",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer ",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "/prompts/:id",
+              "path": [
+                "prompts",
+                ":id"
+              ],
+              "query": [
+                {
+                  "key": "nextCursor",
+                  "value": "MjAyNi0wNC0xNlQxNjoxNDo0OC41MTZa",
+                  "disabled": true
+                },
+                {
+                  "key": "prevCursor",
+                  "value": "MjAyNi0wNC0xNlQxNjoxNDo0OC41MTZa",
+                  "disabled": true
+                }
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "723ed298-f59e-445f-8626-b1d8b9d6e769"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer ",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"text\": \"HELLO WORLD 24\"\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/prompts",
+              "path": [
+                "prompts"
+              ],
+              "query": [
+                {
+                  "key": "nextCursor",
+                  "value": "MjAyNi0wNC0xNlQxNjoxNDo0OC41MTZa",
+                  "disabled": true
+                },
+                {
+                  "key": "prevCursor",
+                  "value": "MjAyNi0wNC0xNlQxNjoxNDo0OC41MTZa",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Audio",
+      "item": [
+        {
+          "name": "get",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "/audios?nextCursor=MjAyNi0wNC0yMVQxMDo1Mjo0MS41M",
+              "path": [
+                "audios"
+              ],
+              "query": [
+                {
+                  "key": "nextCursor",
+                  "value": "MjAyNi0wNC0yMVQxMDo1Mjo0MS41M",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "/audios",
+              "path": [
+                "audios"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "search",
+      "item": [
+        {
+          "name": "search",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "/search?q=abc&nextUserCursor&prevUserCursor&nextAudioCursor&prevAudioCursor",
+              "path": [
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "abc"
+                },
+                {
+                  "key": "nextUserCursor",
+                  "value": null
+                },
+                {
+                  "key": "prevUserCursor",
+                  "value": null,
+                  "type": "text"
+                },
+                {
+                  "key": "nextAudioCursor",
+                  "value": null,
+                  "type": "text"
+                },
+                {
+                  "key": "prevAudioCursor",
+                  "value": null,
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          "let url = pm.variables.get('url');",
+          "const uri = pm.request.url.toString().replace(/^\\/|\\/$/g, '');",
+          "pm.request.url = url.toString().replace(/^\\/|\\/$/g, '') + \"/\" + uri;",
+          "",
+          "let token = pm.variables.get(\"token\");",
+          "",
+          "pm.request.addHeader({ \"key\": \"Authorization\", \"value\": \"Bearer \" + token })",
+          "",
+          "pm.request.addHeader({ \"key\": \"Content-Type\", \"value\": \"Application/json\" })",
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "url",
+      "value": "",
+      "disabled": true
+    },
+    {
+      "key": "url",
+      "value": ""
+    }
+  ]
+}
